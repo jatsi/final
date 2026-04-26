@@ -208,44 +208,6 @@ function abrirCarritoColapsable() {
   instancia.show()
 }
 
-function cambiarCantidadProducto(idProducto, delta) {
-  const itemExistente = carrito.find((item) => item.id === idProducto)
-  if (!itemExistente) return
-
-  const nuevaCantidad = itemExistente.cantidad + delta
-
-  if (nuevaCantidad <= 0) {
-    eliminarProductoDelCarrito(idProducto)
-    return
-  }
-
-  itemExistente.cantidad = nuevaCantidad
-  actualizarVistaCarrito()
-}
-
-function eliminarProductoDelCarrito(idProducto) {
-  const indice = carrito.findIndex((item) => item.id === idProducto)
-  if (indice === -1) return
-
-  const [{ nombre }] = carrito.splice(indice, 1)
-  actualizarVistaCarrito()
-
-  Swal.fire({
-    title: 'Producto eliminado',
-    text: `${nombre} se quitó del carrito.`,
-    icon: 'info',
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1800,
-    background: '#F5F5DC',
-    iconColor: '#6F4E37',
-    didOpen: (toast) => {
-      toast.style.color = '#6F4E37'
-    }
-  })
-}
-
 function actualizarVistaCarrito() {
   const contador = document.getElementById('carrito-count')
   const lista = document.getElementById('carrito-items')
@@ -267,12 +229,7 @@ function actualizarVistaCarrito() {
           <div class="d-flex justify-content-between align-items-start mb-2 carrito-item-row">
             <div>
               <p class="mb-0 fw-semibold">${item.nombre}</p>
-              <div class="d-flex align-items-center gap-2 mt-1">
-                <button class="btn btn-sm btn-carrito-cantidad" data-carrito-accion="restar" data-id="${item.id}" aria-label="Disminuir cantidad">−</button>
-                <small class="text-muted">Cantidad: ${item.cantidad}</small>
-                <button class="btn btn-sm btn-carrito-cantidad" data-carrito-accion="sumar" data-id="${item.id}" aria-label="Aumentar cantidad">+</button>
-                <button class="btn btn-sm btn-link text-danger p-0" data-carrito-accion="eliminar" data-id="${item.id}" aria-label="Eliminar producto">Eliminar</button>
-              </div>
+              <small class="text-muted">Cantidad: ${item.cantidad}</small>
             </div>
             <span class="fw-bold">S/ ${(item.precio * item.cantidad).toFixed(2)}</span>
           </div>
