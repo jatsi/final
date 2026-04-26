@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import { Modal } from 'bootstrap'
 import './style.css'
 import Swal from 'sweetalert2'
 
@@ -74,20 +75,32 @@ function configurarEventosLogin() {
       return
     }
 
+    cerrarModalYLimpiarLogin(formLogin)
+
     Swal.fire({
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
       icon: 'success',
-      confirmButtonText: 'Continuar',
+      toast: true,
+      position: 'top-end',
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
       confirmButtonColor: '#6F4E37'
-    }).then(() => {
-      const modal = document.getElementById('modalLogin')
-      if (!modal || !window.bootstrap) return
-      const instancia = bootstrap.Modal.getOrCreateInstance(modal)
-      instancia.hide()
-      formLogin.reset()
     })
   })
+}
+
+function cerrarModalYLimpiarLogin(formLogin) {
+  const modal = document.getElementById('modalLogin')
+  if (!modal) return
+
+  const instancia = Modal.getOrCreateInstance(modal)
+  instancia.hide()
+  formLogin.reset()
+
+  document.body.classList.remove('modal-open')
+  document.querySelectorAll('.modal-backdrop').forEach((backdrop) => backdrop.remove())
 }
 
 function configurarEventosBusqueda() {
