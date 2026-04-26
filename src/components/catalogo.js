@@ -65,7 +65,20 @@ export function configuracionPrincipalEventos() {
             }
         });
     }
+    const btnLogo = document.getElementById('btn-logo-inicio');
+    if (btnLogo) {
+        btnLogo.addEventListener('click', () => {
+            // 1. Volvemos a filtrar para que aparezcan "Todos"
+            filtrarProductos('Todos');
+            
+            // 2. Subimos al inicio de la página suavemente
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            console.log("Regresando al inicio...");
+        });
+    }
 }
+
 
 function filtrarProductos(categoria) {
     const contenedor = document.querySelector('#contenedor-productos');
@@ -130,7 +143,14 @@ export function produ() {
         });
     }
 }
+function mostrarDetalle(productoId) {
+  const producto = productos.find((producto)=>(producto.id === productoId ))
 
+  document.getElementById("producto-nombre").textContent= producto.nombre;
+
+  const detalleModal = new bootstrap.Modal(document.getElementById("detalleModal"));
+  detalleModal.show()
+}
 
 // Tu función produ() se queda casi igual, pero asegúrate de que esté exportada
 
