@@ -29,6 +29,7 @@ function inicializarApp() {
   configuracionPrincipalEventos()
   produ()
   configurarEventosCarrito()
+  configurarToggleCarrito()
   configurarEventosLogin()
   actualizarVistaCarrito()
 }
@@ -175,8 +176,33 @@ function abrirCarritoColapsable() {
   const collapseElement = document.getElementById('carritoCollapse')
   if (!collapseElement || !window.bootstrap) return
 
-  const instancia = bootstrap.Collapse.getOrCreateInstance(collapseElement, { toggle: false })
+  const instancia = obtenerInstanciaCarrito(collapseElement)
   instancia.show()
+}
+
+function configurarToggleCarrito() {
+  const botonCarrito = document.getElementById('btn-toggle-carrito')
+  const collapseElement = document.getElementById('carritoCollapse')
+  if (!botonCarrito || !collapseElement || !window.bootstrap) return
+
+  const instancia = obtenerInstanciaCarrito(collapseElement)
+
+  botonCarrito.addEventListener('click', (e) => {
+    e.preventDefault()
+    instancia.toggle()
+  })
+
+  collapseElement.addEventListener('shown.bs.collapse', () => {
+    botonCarrito.setAttribute('aria-expanded', 'true')
+  })
+
+  collapseElement.addEventListener('hidden.bs.collapse', () => {
+    botonCarrito.setAttribute('aria-expanded', 'false')
+  })
+}
+
+function obtenerInstanciaCarrito(collapseElement) {
+  return bootstrap.Collapse.getOrCreateInstance(collapseElement, { toggle: false })
 }
 
 function cambiarCantidadProducto(idProducto, delta) {
