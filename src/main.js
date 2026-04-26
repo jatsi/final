@@ -3,7 +3,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { Modal } from 'bootstrap'
 import './style.css'
 import Swal from 'sweetalert2'
-import { crearCardProducto } from './components/card.js'
 
 import { productos } from './data/producto.js'
 import {
@@ -31,8 +30,6 @@ function inicializarApp() {
   produ()
   configurarEventosCarrito()
   configurarEventosLogin()
-  configurarEventosBusqueda()
-  configurarFormularioContacto()
   actualizarVistaCarrito()
 }
 
@@ -84,26 +81,16 @@ function configurarEventosLogin() {
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
       icon: 'success',
-      timer: 3000,
-      timerProgressBar: true,
-      showConfirmButton: false,
+      confirmButtonText: 'Continuar',
       confirmButtonColor: '#6F4E37'
     }).then(() => {
-      cerrarModalYLimpiarLogin(formLogin)
+      const modal = document.getElementById('modalLogin')
+      if (!modal || !window.bootstrap) return
+      const instancia = bootstrap.Modal.getOrCreateInstance(modal)
+      instancia.hide()
+      formLogin.reset()
     })
   })
-}
-
-function cerrarModalYLimpiarLogin(formLogin) {
-  const modal = document.getElementById('modalLogin')
-  if (!modal || !window.bootstrap?.Modal) return
-
-  const instancia =
-    window.bootstrap.Modal.getInstance(modal) ??
-    window.bootstrap.Modal.getOrCreateInstance(modal)
-
-  instancia.hide()
-  formLogin.reset()
 }
 
 function configurarEventosBusqueda() {
@@ -126,32 +113,6 @@ function configurarEventosBusqueda() {
       buscarProductos('')
     }
   })
-}
-
-function buscarProductos(terminoBusqueda) {
-  const contenedor = document.getElementById('contenedor-productos')
-  if (!contenedor) return
-
-  const termino = terminoBusqueda.trim().toLowerCase()
-  const resultados = termino
-    ? productos.filter(
-        (producto) =>
-          producto.nombre.toLowerCase().includes(termino) ||
-          producto.categoria.toLowerCase().includes(termino) ||
-          producto.descripcion.toLowerCase().includes(termino)
-      )
-    : productos
-
-  if (resultados.length === 0) {
-    contenedor.innerHTML = `
-      <div class="col-12 text-center">
-        <p class="text-muted mb-0">No encontramos productos con ese criterio.</p>
-      </div>
-    `
-    return
-  }
-
-  contenedor.innerHTML = resultados.map((producto) => crearCardProducto(producto)).join('')
 }
 
 function configurarFormularioContacto() {
