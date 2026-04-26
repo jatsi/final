@@ -1,0 +1,168 @@
+:root {
+  --primary-violet: #312f2b;
+  --light-violet: #f3effb;
+  --dark-violet: #393141;
+}
+
+* {
+  font-family: "Montserrat Alternates", sans-serif;
+}
+
+body {
+  background-color: #f5eddc !important;
+}
+h1, h2, h3, .card-title {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 700; /* Esto la hace más negrita y elegante */
+}
+
+.navbar-fija {
+    position: sticky; /* Se queda pegada al llegar al borde superior */
+    top: 0;
+    z-index: 1000; /* Asegura que esté por encima de los productos */
+    background-color: #ffffff; /* Fondo blanco como en Tottus */
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.logo-navbar {
+    height: 50px; /* Tamaño del logo cuando está en la barra blanca */
+    width: auto;
+    object-fit: contain;
+}
+
+/* Estilo para que el input se vea moderno */
+.form-control:focus {
+    border-color: var(--primary-violet);
+    box-shadow: none;
+}
+
+.input-group-text {
+    cursor: pointer;
+}
+
+/* Botón "Ver Detalle" personalizado */
+.btn-mostrar-detalle {
+    background-color: transparent;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-mostrar-detalle:hover {
+    background-color: #f8f9fa;
+    color: #5c4f3e;
+    border-color: #198754;
+}
+
+/* Efecto de elevación en las tarjetas */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important;
+}
+/* Ajuste para que la sección de presentación sea gigante */
+#hero {
+  min-height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra horizontalmente */
+  background: linear-gradient(135deg, #ebd6c8, #927768, #332a28) !important; /* El violeta que querías */
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* Hacer que el título sea mucho más grande */
+#hero h1 {
+  font-size: 4.5rem; /* Tamaño gigante */
+  font-weight: 900;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+#hero p {
+  font-size: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+}
+
+/* Ajuste para que el catálogo aparezca justo debajo */
+#catalogo {
+  padding-top: 80px;
+}
+html {
+  scroll-behavior: smooth;
+}
+/* Asegurar que el botón esté por encima de todo */
+.z-3 {
+  z-index: 1050 !important;
+}
+
+/* Estilo para las opciones del menú lateral */
+.list-group-item-action {
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  color: var(--dark-violet);
+  font-weight: 500;
+}
+
+.list-group-item-action:hover {
+  background-color: var(--light-violet);
+  color: var(--primary-violet);
+}
+
+.offcanvas {
+  border-radius: 0 20px 20px 0;
+}
+/* Esto obliga a que el fondo beige se aplique a TODO */
+body, 
+#app, 
+section, 
+#catalogo, 
+.container-fluid {
+    background-color: #f5eadc !important;
+}
+
+/* Para que las tarjetas sigan resaltando, las dejamos blancas */
+.card {
+    background-color: #ffffff !important;
+}
+#modalLogin .form-control {
+    padding: 10px 20px;
+}
+
+#modalLogin .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(111, 78, 55, 0.25); /* Resplandor café al escribir */
+    border: none;
+}
+.swal2-title, .swal2-html-container {
+    font-family: 'Montserrat Alternates', sans-serif !important;
+    color: #6F4E37 !important;
+}
+
+.swal2-styled.swal2-confirm {
+    border-radius: 50px !important; /* Botón redondeado como tus otros botones */
+}
+/* style.css */
+
+/* Obliga a habilitar el scroll si el modal no está presente */
+body:not(.modal-open) {
+    overflow-y: auto !important;
+    padding-right: 0 !important;
+}
+
+/* Asegura que SweetAlert no deje el body "tieso" */
+.swal2-shown {
+    height: auto !important;
+}
