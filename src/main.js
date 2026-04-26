@@ -33,6 +33,7 @@ function inicializarApp() {
   configurarEventosLogin()
   configurarEventosBusqueda()
   configurarFormularioContacto()
+  configurarToggleCarrito()
   actualizarVistaCarrito()
 }
 
