@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import { Modal } from 'bootstrap'
 import './style.css'
 import Swal from 'sweetalert2'
 
@@ -73,6 +74,8 @@ function configurarEventosLogin() {
       })
       return
     }
+
+    cerrarModalYLimpiarLogin(formLogin)
 
     Swal.fire({
       title: '¡Bienvenido!',
