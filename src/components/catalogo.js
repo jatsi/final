@@ -29,29 +29,6 @@ export function mostrarCatalogo() {
                 </div>
         </div>
     </section>
-    <section id="contacto" class="py-5" style="background-color: #FFF8E7;">
-      <div class="container" style="max-width: 700px;">
-        <div class="text-center mb-4">
-          <h3 class="fw-bold" style="color: #6F4E37;">Contáctanos</h3>
-          <p class="text-muted mb-0">Déjanos tus datos y te escribimos pronto.</p>
-        </div>
-        <form id="form-contacto" class="p-4 rounded-4 shadow-sm" style="background-color: #F5F5DC;">
-          <div class="mb-3">
-            <label for="contacto-nombre" class="form-label fw-semibold" style="color: #6F4E37;">Nombre</label>
-            <input id="contacto-nombre" name="nombre" class="form-control" type="text" placeholder="Tu nombre completo" required>
-          </div>
-          <div class="mb-3">
-            <label for="contacto-email" class="form-label fw-semibold" style="color: #6F4E37;">Correo</label>
-            <input id="contacto-email" name="email" class="form-control" type="email" placeholder="correo@ejemplo.com" required>
-          </div>
-          <div class="mb-4">
-            <label for="contacto-mensaje" class="form-label fw-semibold" style="color: #6F4E37;">Mensaje</label>
-            <textarea id="contacto-mensaje" name="mensaje" class="form-control" rows="4" placeholder="Escribe tu consulta..." required></textarea>
-          </div>
-          <button type="submit" class="btn text-white w-100 fw-bold" style="background-color: #6F4E37; border: none;">Enviar mensaje</button>
-        </form>
-      </div>
-    </section>
     `;
 }
 
@@ -174,3 +151,4 @@ export function produ() {
         contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
     }
 }
+

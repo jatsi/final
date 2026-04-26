@@ -44,10 +44,10 @@
       </div>
 
         <div class="input-group flex-grow-2 mx-4">
-          <input id="busqueda-input" type="text" class="form-control rounded-start-pill border-end-0" placeholder="Buscar productos..." aria-label="Buscar">
-          <button id="btn-buscar" class="input-group-text bg-white rounded-end-pill border-start-0" type="button" aria-label="Buscar productos">
+          <input type="text" class="form-control rounded-start-pill border-end-0" placeholder="Buscar productos..." aria-label="Buscar">
+          <span class="input-group-text bg-white rounded-end-pill border-start-0">
             <iconify-icon icon="mdi:magnify" style="color: var(--primary-violet); font-size: 1rem;"></iconify-icon>
-          </button>
+          </span>
         </div>
       <a href="javascript:void(0)" 
           class="text-decoration-none" 
@@ -57,10 +57,9 @@
           <iconify-icon icon="mdi:account-outline" style="font-size: 1.8rem;"></iconify-icon>
         </a>
 
-      <button class="btn d-flex gap-3 fs-4 p-0 border-0 bg-transparent" 
+      <button id="btn-toggle-carrito"
+              class="btn d-flex gap-3 fs-4 p-0 border-0 bg-transparent" 
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#carritoCollapse"
               aria-expanded="false"
               aria-controls="carritoCollapse"
               style="color: #6F4E37; position: relative; cursor: pointer;">
