@@ -96,12 +96,9 @@ function configurarEventosLogin() {
 
 function cerrarModalYLimpiarLogin(formLogin) {
   const modal = document.getElementById('modalLogin')
-  if (!modal || !window.bootstrap?.Modal) return
+  if (!modal) return
 
-  const instancia =
-    window.bootstrap.Modal.getInstance(modal) ??
-    window.bootstrap.Modal.getOrCreateInstance(modal)
-
+  const instancia = Modal.getOrCreateInstance(modal)
   instancia.hide()
   formLogin.reset()
 }
