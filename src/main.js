@@ -139,30 +139,45 @@ function configurarEventosBusqueda() {
   })
 }
 
-function buscarProductos(terminoBusqueda) {
-  const contenedor = document.getElementById('contenedor-productos')
-  if (!contenedor) return
+export function buscarProductos(terminoBusqueda = '') {
+    const contenedor = document.querySelector('#contenedor-productos');
+    if (!contenedor) return;
 
-  const termino = terminoBusqueda.trim().toLowerCase()
-  const resultados = termino
-    ? productos.filter(
-        (producto) =>
-          producto.nombre.toLowerCase().includes(termino) ||
-          producto.categoria.toLowerCase().includes(termino) ||
-          producto.descripcion.toLowerCase().includes(termino)
-      )
-    : productos
+    const terminoNormalizado = terminoBusqueda.trim().toLowerCase();
+    if (!terminoNormalizado) {
+        contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
+        return;
+    }
 
-  if (resultados.length === 0) {
-    contenedor.innerHTML = `
-      <div class="col-12 text-center">
-        <p class="text-muted mb-0">No encontramos productos con ese criterio.</p>
-      </div>
-    `
-    return
-  }
+    const resultados = productos.filter((producto) => {
+        const nombre = producto.nombre.toLowerCase();
+        const descripcion = producto.descripcion.toLowerCase();
+        const categoria = producto.categoria.toLowerCase();
+        return nombre.includes(terminoNormalizado)
+            || descripcion.includes(terminoNormalizado)
+            || categoria.includes(terminoNormalizado);
+    });
 
-  contenedor.innerHTML = resultados.map((producto) => crearCardProducto(producto)).join('')
+    if (resultados.length === 0) {
+        contenedor.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-warning text-center mb-0">
+                    No encontramos productos para "<strong>${terminoBusqueda.trim()}</strong>".
+                </div>
+            </div>
+        `;
+        desplazarAResultados();
+        return;
+    }
+
+    contenedor.innerHTML = resultados.map(p => crearCardProducto(p)).join('');
+    desplazarAResultados();
+}
+
+function desplazarAResultados() {
+    const seccionCatalogo = document.getElementById('catalogo');
+    if (!seccionCatalogo) return;
+    seccionCatalogo.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function configurarFormularioContacto() {

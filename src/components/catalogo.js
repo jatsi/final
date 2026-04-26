@@ -92,6 +92,7 @@ export function configuracionPrincipalEventos() {
             }
         });
     }
+    
     const btnLogo = document.getElementById('btn-logo-inicio');
     if (btnLogo) {
         btnLogo.addEventListener('click', () => {
