@@ -30,10 +30,6 @@ function inicializarApp() {
   configuracionPrincipalEventos()
   produ()
   configurarEventosCarrito()
-  configurarEventosLogin()
-  configurarEventosBusqueda()
-  configurarFormularioContacto()
-  configurarToggleCarrito()
   actualizarVistaCarrito()
 }
 
@@ -44,160 +40,6 @@ function configurarEventosCarrito() {
 
     const id = Number(btn.getAttribute('data-id'))
     agregarProductoAlCarrito(id)
-  })
-
-  document.addEventListener('click', (e) => {
-    const btnCantidad = e.target.closest('[data-carrito-accion]')
-    if (!btnCantidad) return
-
-    const idProducto = Number(btnCantidad.getAttribute('data-id'))
-    const accion = btnCantidad.getAttribute('data-carrito-accion')
-
-    if (accion === 'sumar') cambiarCantidadProducto(idProducto, 1)
-    if (accion === 'restar') cambiarCantidadProducto(idProducto, -1)
-    if (accion === 'eliminar') eliminarProductoDelCarrito(idProducto)
-  })
-}
-
-function configurarEventosLogin() {
-  const formLogin = document.getElementById('formLogin')
-  if (!formLogin) return
-
-  formLogin.addEventListener('submit', (e) => {
-    e.preventDefault()
-    const correo = formLogin.querySelector('input[type="email"]')?.value.trim()
-    const password = formLogin.querySelector('input[type="password"]')?.value.trim()
-
-    if (!correo || !password) {
-      Swal.fire({
-        title: 'Campos incompletos',
-        text: 'Completa tu correo y contraseña para continuar.',
-        icon: 'warning',
-        confirmButtonText: 'Entendido',
-        confirmButtonColor: '#6F4E37'
-      })
-      return
-    }
-
-    cerrarModalYLimpiarLogin(formLogin)
-
-    Swal.fire({
-      title: '¡Bienvenido!',
-      text: `Inicio de sesión correcto para ${correo}.`,
-      icon: 'success',
-      timer: 3000,
-      timerProgressBar: true,
-      showConfirmButton: false,
-      confirmButtonColor: '#6F4E37'
-    }).then(() => {
-      cerrarModalYLimpiarLogin(formLogin)
-    })
-  })
-}
-
-function cerrarModalYLimpiarLogin(formLogin) {
-  const modal = document.getElementById('modalLogin')
-  if (!modal || !window.bootstrap?.Modal) return
-
-  const instancia =
-    window.bootstrap.Modal.getInstance(modal) ??
-    window.bootstrap.Modal.getOrCreateInstance(modal)
-
-  const limpiarBackdropsSobrantes = () => {
-    const hayModalesAbiertos = document.querySelector('.modal.show')
-    if (hayModalesAbiertos) return
-
-    document.body.classList.remove('modal-open')
-    document.body.style.removeProperty('padding-right')
-    document.querySelectorAll('.modal-backdrop').forEach((backdrop) => backdrop.remove())
-  }
-
-  modal.addEventListener('hidden.bs.modal', limpiarBackdropsSobrantes, { once: true })
-  instancia.hide()
-  setTimeout(limpiarBackdropsSobrantes, 350)
-  formLogin.reset()
-}
-
-function configurarEventosBusqueda() {
-  const inputBusqueda = document.getElementById('busqueda-input')
-  const botonBusqueda = document.getElementById('btn-buscar')
-  if (!inputBusqueda || !botonBusqueda) return
-
-  botonBusqueda.addEventListener('click', () => {
-    buscarProductos(inputBusqueda.value)
-  })
-
-  inputBusqueda.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter') return
-    e.preventDefault()
-    buscarProductos(inputBusqueda.value)
-  })
-
-  inputBusqueda.addEventListener('input', () => {
-    if (inputBusqueda.value.trim() === '') {
-      buscarProductos('')
-    }
-  })
-}
-
-export function buscarProductos(terminoBusqueda = '') {
-    const contenedor = document.querySelector('#contenedor-productos');
-    if (!contenedor) return;
-
-    const terminoNormalizado = terminoBusqueda.trim().toLowerCase();
-    if (!terminoNormalizado) {
-        contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
-        return;
-    }
-
-    const resultados = productos.filter((producto) => {
-        const nombre = producto.nombre.toLowerCase();
-        const descripcion = producto.descripcion.toLowerCase();
-        const categoria = producto.categoria.toLowerCase();
-        return nombre.includes(terminoNormalizado)
-            || descripcion.includes(terminoNormalizado)
-            || categoria.includes(terminoNormalizado);
-    });
-
-    if (resultados.length === 0) {
-        contenedor.innerHTML = `
-            <div class="col-12">
-                <div class="alert alert-warning text-center mb-0">
-                    No encontramos productos para "<strong>${terminoBusqueda.trim()}</strong>".
-                </div>
-            </div>
-        `;
-        desplazarAResultados();
-        return;
-    }
-
-    contenedor.innerHTML = resultados.map(p => crearCardProducto(p)).join('');
-    desplazarAResultados();
-}
-
-function desplazarAResultados() {
-    const seccionCatalogo = document.getElementById('catalogo');
-    if (!seccionCatalogo) return;
-    seccionCatalogo.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function configurarFormularioContacto() {
-  const formulario = document.getElementById('form-contacto')
-  if (!formulario) return
-
-  formulario.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    Swal.fire({
-      title: 'registro exitoso',
-      html: '<small>tus datos se enviaron correctamente</small>',
-      icon: 'success',
-      confirmButtonText: 'Aceptar',
-      confirmButtonColor: '#6F4E37',
-      background: '#F5F5DC'
-    }).then(() => {
-      formulario.reset()
-    })
   })
 }
 
@@ -245,85 +87,6 @@ function abrirCarritoColapsable() {
   instancia.show()
 }
 
-export function configurarToggleCarrito() {
-  const botonCarrito = document.getElementById('btn-toggle-carrito')
-  const collapseElement = document.getElementById('carritoCollapse')
-  if (!botonCarrito || !collapseElement || !window.bootstrap) return
-
-  const instancia = obtenerInstanciaCarrito(collapseElement)
-
-  botonCarrito.addEventListener('click', (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    if (collapseElement.classList.contains('show')) {
-      instancia.hide()
-      return
-    }
-
-    instancia.show()
-  })
-
-  collapseElement.addEventListener('click', (e) => {
-    e.stopPropagation()
-  })
-
-  document.addEventListener('click', () => {
-    if (!collapseElement.classList.contains('show')) return
-    instancia.hide()
-  })
-
-  collapseElement.addEventListener('shown.bs.collapse', () => {
-    botonCarrito.setAttribute('aria-expanded', 'true')
-  })
-
-  collapseElement.addEventListener('hidden.bs.collapse', () => {
-    botonCarrito.setAttribute('aria-expanded', 'false')
-  })
-}
-
-function obtenerInstanciaCarrito(collapseElement) {
-  return bootstrap.Collapse.getOrCreateInstance(collapseElement, { toggle: false })
-}
-
-function cambiarCantidadProducto(idProducto, delta) {
-  const itemExistente = carrito.find((item) => item.id === idProducto)
-  if (!itemExistente) return
-
-  const nuevaCantidad = itemExistente.cantidad + delta
-
-  if (nuevaCantidad <= 0) {
-    eliminarProductoDelCarrito(idProducto)
-    return
-  }
-
-  itemExistente.cantidad = nuevaCantidad
-  actualizarVistaCarrito()
-}
-
-function eliminarProductoDelCarrito(idProducto) {
-  const indice = carrito.findIndex((item) => item.id === idProducto)
-  if (indice === -1) return
-
-  const [{ nombre }] = carrito.splice(indice, 1)
-  actualizarVistaCarrito()
-
-  Swal.fire({
-    title: 'Producto eliminado',
-    text: `${nombre} se quitó del carrito.`,
-    icon: 'info',
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1800,
-    background: '#F5F5DC',
-    iconColor: '#6F4E37',
-    didOpen: (toast) => {
-      toast.style.color = '#6F4E37'
-    }
-  })
-}
-
 function actualizarVistaCarrito() {
   const contador = document.getElementById('carrito-count')
   const lista = document.getElementById('carrito-items')
@@ -345,12 +108,7 @@ function actualizarVistaCarrito() {
           <div class="d-flex justify-content-between align-items-start mb-2 carrito-item-row">
             <div>
               <p class="mb-0 fw-semibold">${item.nombre}</p>
-              <div class="d-flex align-items-center gap-2 mt-1">
-                <button class="btn btn-sm btn-carrito-cantidad" data-carrito-accion="restar" data-id="${item.id}" aria-label="Disminuir cantidad">−</button>
-                <small class="text-muted">Cantidad: ${item.cantidad}</small>
-                <button class="btn btn-sm btn-carrito-cantidad" data-carrito-accion="sumar" data-id="${item.id}" aria-label="Aumentar cantidad">+</button>
-                <button class="btn btn-sm btn-link text-danger p-0" data-carrito-accion="eliminar" data-id="${item.id}" aria-label="Eliminar producto">Eliminar</button>
-              </div>
+              <small class="text-muted">Cantidad: ${item.cantidad}</small>
             </div>
             <span class="fw-bold">S/ ${(item.precio * item.cantidad).toFixed(2)}</span>
           </div>
