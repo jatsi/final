@@ -140,6 +140,48 @@ function configurarFormularioContacto() {
   })
 }
 
+function configurarEventosBusqueda() {
+  const inputBusqueda = document.getElementById('busqueda-input')
+  const botonBusqueda = document.getElementById('btn-buscar')
+  if (!inputBusqueda || !botonBusqueda) return
+
+  botonBusqueda.addEventListener('click', () => {
+    buscarProductos(inputBusqueda.value)
+  })
+
+  inputBusqueda.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    buscarProductos(inputBusqueda.value)
+  })
+
+  inputBusqueda.addEventListener('input', () => {
+    if (inputBusqueda.value.trim() === '') {
+      buscarProductos('')
+    }
+  })
+}
+
+function configurarFormularioContacto() {
+  const formulario = document.getElementById('form-contacto')
+  if (!formulario) return
+
+  formulario.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    Swal.fire({
+      title: 'registro exitoso',
+      html: '<small>tus datos se enviaron correctamente</small>',
+      icon: 'success',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#6F4E37',
+      background: '#F5F5DC'
+    }).then(() => {
+      formulario.reset()
+    })
+  })
+}
+
 function agregarProductoAlCarrito(idProducto) {
   const producto = productos.find((p) => p.id === idProducto)
   if (!producto) return
