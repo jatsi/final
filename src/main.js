@@ -33,6 +33,7 @@ function inicializarApp() {
   configurarEventosLogin()
   configurarEventosBusqueda()
   configurarFormularioContacto()
+  configurarToggleCarrito()
   actualizarVistaCarrito()
 }
 
@@ -244,7 +245,7 @@ function abrirCarritoColapsable() {
   instancia.show()
 }
 
-function configurarToggleCarrito() {
+export function configurarToggleCarrito() {
   const botonCarrito = document.getElementById('btn-toggle-carrito')
   const collapseElement = document.getElementById('carritoCollapse')
   if (!botonCarrito || !collapseElement || !window.bootstrap) return
