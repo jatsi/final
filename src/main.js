@@ -81,26 +81,26 @@ function configurarEventosLogin() {
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
       icon: 'success',
-      toast: true,
-      position: 'top-end',
       timer: 3000,
       timerProgressBar: true,
       showConfirmButton: false,
       confirmButtonColor: '#6F4E37'
+    }).then(() => {
+      cerrarModalYLimpiarLogin(formLogin)
     })
   })
 }
 
 function cerrarModalYLimpiarLogin(formLogin) {
   const modal = document.getElementById('modalLogin')
-  if (!modal) return
+  if (!modal || !window.bootstrap?.Modal) return
 
-  const instancia = Modal.getOrCreateInstance(modal)
+  const instancia =
+    window.bootstrap.Modal.getInstance(modal) ??
+    window.bootstrap.Modal.getOrCreateInstance(modal)
+
   instancia.hide()
   formLogin.reset()
-
-  document.body.classList.remove('modal-open')
-  document.querySelectorAll('.modal-backdrop').forEach((backdrop) => backdrop.remove())
 }
 
 function configurarEventosBusqueda() {
