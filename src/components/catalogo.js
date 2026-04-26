@@ -92,7 +92,6 @@ export function configuracionPrincipalEventos() {
             }
         });
     }
-    
     const btnLogo = document.getElementById('btn-logo-inicio');
     if (btnLogo) {
         btnLogo.addEventListener('click', () => {
@@ -129,8 +128,8 @@ export function mostrarModalDetalles(){
         <p id="producto-descripcion"> </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Agregar al carrito</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -173,15 +172,5 @@ export function produ() {
     if (contenedor) {
         // productos y crearCardProducto deben estar importados arriba
         contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
-    }
-
-    // Activa el formulario de login (lo que antes era alerta)
-    const formLogin = document.getElementById('formLogin');
-    if (formLogin) {
-        formLogin.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // ... resto de tu código de SweetAlert ...
-            console.log("Login enviado");
-        });
     }
 }

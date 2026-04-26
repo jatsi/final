@@ -188,3 +188,18 @@ body:not(.modal-open) {
   border-bottom: 1px solid #f0e7da;
   padding-bottom: 8px;
 }
+
+.btn-carrito-cantidad {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #d2b48c;
+  color: #6F4E37;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+}
+
+.btn-carrito-cantidad:hover {
+  background-color: #f5eadc;
+}
