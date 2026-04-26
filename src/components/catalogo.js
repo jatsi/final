@@ -117,10 +117,18 @@ export function buscarProductos(terminoBusqueda = '') {
                 </div>
             </div>
         `;
+        desplazarAResultados();
         return;
     }
 
     contenedor.innerHTML = resultados.map(p => crearCardProducto(p)).join('');
+    desplazarAResultados();
+}
+
+function desplazarAResultados() {
+    const seccionCatalogo = document.getElementById('catalogo');
+    if (!seccionCatalogo) return;
+    seccionCatalogo.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Función vacía para evitar errores de importación si la llamas en main.js
