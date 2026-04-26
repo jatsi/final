@@ -3,6 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { Modal } from 'bootstrap'
 import './style.css'
 import Swal from 'sweetalert2'
+import { crearCardProducto } from './components/card.js'
 
 import { productos } from './data/producto.js'
 import {
@@ -29,8 +30,9 @@ function inicializarApp() {
   configuracionPrincipalEventos()
   produ()
   configurarEventosCarrito()
-  configurarToggleCarrito()
   configurarEventosLogin()
+  configurarEventosBusqueda()
+  configurarFormularioContacto()
   actualizarVistaCarrito()
 }
 
@@ -82,16 +84,37 @@ function configurarEventosLogin() {
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
       icon: 'success',
-      confirmButtonText: 'Continuar',
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
       confirmButtonColor: '#6F4E37'
     }).then(() => {
-      const modal = document.getElementById('modalLogin')
-      if (!modal || !window.bootstrap) return
-      const instancia = bootstrap.Modal.getOrCreateInstance(modal)
-      instancia.hide()
-      formLogin.reset()
+      cerrarModalYLimpiarLogin(formLogin)
     })
   })
+}
+
+function cerrarModalYLimpiarLogin(formLogin) {
+  const modal = document.getElementById('modalLogin')
+  if (!modal || !window.bootstrap?.Modal) return
+
+  const instancia =
+    window.bootstrap.Modal.getInstance(modal) ??
+    window.bootstrap.Modal.getOrCreateInstance(modal)
+
+  const limpiarBackdropsSobrantes = () => {
+    const hayModalesAbiertos = document.querySelector('.modal.show')
+    if (hayModalesAbiertos) return
+
+    document.body.classList.remove('modal-open')
+    document.body.style.removeProperty('padding-right')
+    document.querySelectorAll('.modal-backdrop').forEach((backdrop) => backdrop.remove())
+  }
+
+  modal.addEventListener('hidden.bs.modal', limpiarBackdropsSobrantes, { once: true })
+  instancia.hide()
+  setTimeout(limpiarBackdropsSobrantes, 350)
+  formLogin.reset()
 }
 
 function configurarEventosBusqueda() {
@@ -114,6 +137,32 @@ function configurarEventosBusqueda() {
       buscarProductos('')
     }
   })
+}
+
+function buscarProductos(terminoBusqueda) {
+  const contenedor = document.getElementById('contenedor-productos')
+  if (!contenedor) return
+
+  const termino = terminoBusqueda.trim().toLowerCase()
+  const resultados = termino
+    ? productos.filter(
+        (producto) =>
+          producto.nombre.toLowerCase().includes(termino) ||
+          producto.categoria.toLowerCase().includes(termino) ||
+          producto.descripcion.toLowerCase().includes(termino)
+      )
+    : productos
+
+  if (resultados.length === 0) {
+    contenedor.innerHTML = `
+      <div class="col-12 text-center">
+        <p class="text-muted mb-0">No encontramos productos con ese criterio.</p>
+      </div>
+    `
+    return
+  }
+
+  contenedor.innerHTML = resultados.map((producto) => crearCardProducto(producto)).join('')
 }
 
 function configurarFormularioContacto() {
@@ -176,7 +225,7 @@ function abrirCarritoColapsable() {
   const collapseElement = document.getElementById('carritoCollapse')
   if (!collapseElement || !window.bootstrap) return
 
-  const instancia = obtenerInstanciaCarrito(collapseElement)
+  const instancia = bootstrap.Collapse.getOrCreateInstance(collapseElement, { toggle: false })
   instancia.show()
 }
 
