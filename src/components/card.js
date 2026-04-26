@@ -7,10 +7,7 @@ export function crearCardProducto(producto) {
         <div class="card-body text-center pt-0">
           <h5 class="card-title fw-bold" style="color: #382819;">${producto.nombre}</h5>
           <p class="card-text text-muted small">${producto.descripcion}</p>
-          <p class="fs-5 fw-bold" style="color: #6F4E37;">
-            S/ ${producto.precio.toFixed(2)}
-            <span class="fs-6 fw-semibold ms-1" style="color: #977c6b;">x ${producto.medida}</span>
-          </p>
+          <p class="fs-5 fw-bold" style="color: #6F4E37;">S/ ${producto.precio.toFixed(2)}</p>
           
           <div class="d-grid gap-2">
             <button class="btn btn-agregar-carrito rounded-pill fw-bold" 
