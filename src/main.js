@@ -189,7 +189,23 @@ function configurarToggleCarrito() {
 
   botonCarrito.addEventListener('click', (e) => {
     e.preventDefault()
-    instancia.toggle()
+    e.stopPropagation()
+
+    if (collapseElement.classList.contains('show')) {
+      instancia.hide()
+      return
+    }
+
+    instancia.show()
+  })
+
+  collapseElement.addEventListener('click', (e) => {
+    e.stopPropagation()
+  })
+
+  document.addEventListener('click', () => {
+    if (!collapseElement.classList.contains('show')) return
+    instancia.hide()
   })
 
   collapseElement.addEventListener('shown.bs.collapse', () => {
