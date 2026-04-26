@@ -90,6 +90,47 @@ function filtrarProductos(categoria) {
     contenedor.innerHTML = filtrados.map(p => crearCardProducto(p)).join('');
 }
 
+export function buscarProductos(terminoBusqueda = '') {
+    const contenedor = document.querySelector('#contenedor-productos');
+    if (!contenedor) return;
+
+    const terminoNormalizado = terminoBusqueda.trim().toLowerCase();
+    if (!terminoNormalizado) {
+        contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
+        return;
+    }
+
+    const resultados = productos.filter((producto) => {
+        const nombre = producto.nombre.toLowerCase();
+        const descripcion = producto.descripcion.toLowerCase();
+        const categoria = producto.categoria.toLowerCase();
+        return nombre.includes(terminoNormalizado)
+            || descripcion.includes(terminoNormalizado)
+            || categoria.includes(terminoNormalizado);
+    });
+
+    if (resultados.length === 0) {
+        contenedor.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-warning text-center mb-0">
+                    No encontramos productos para "<strong>${terminoBusqueda.trim()}</strong>".
+                </div>
+            </div>
+        `;
+        desplazarAResultados();
+        return;
+    }
+
+    contenedor.innerHTML = resultados.map(p => crearCardProducto(p)).join('');
+    desplazarAResultados();
+}
+
+function desplazarAResultados() {
+    const seccionCatalogo = document.getElementById('catalogo');
+    if (!seccionCatalogo) return;
+    seccionCatalogo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 // Función vacía para evitar errores de importación si la llamas en main.js
 export function mostrarModalDetalles(){
   return `
@@ -151,4 +192,3 @@ export function produ() {
         contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
     }
 }
-
