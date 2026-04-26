@@ -23,6 +23,7 @@ function inicializarApp() {
       ${mostrarHero()}
       ${mostrarCatalogo()}
      ${ mostrarModalDetalles()}
+     ${ produ()}
     `;
 
     // ACTIVACIÓN DE EVENTOS

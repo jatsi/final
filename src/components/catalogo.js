@@ -51,6 +51,7 @@ export function renderizarMenuCategorias() {
 
 // Esta función es para que los botones del menú lateral funcionen
 export function configuracionPrincipalEventos() {
+    // 1. EVENTO PARA LAS CATEGORÍAS (Baja al catálogo)
     const listaMenu = document.querySelector('#lista-categorias-menu');
     if (listaMenu) {
         listaMenu.addEventListener('click', (e) => {
@@ -58,9 +59,12 @@ export function configuracionPrincipalEventos() {
             if (btn) {
                 const cat = btn.getAttribute('data-categoria');
                 filtrarProductos(cat);
-                
-                // Cerrar el menú lateral automáticamente al elegir
-                const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('menuCategorias'));
+                const seccionCatalogo = document.getElementById('catalogo');
+                if (seccionCatalogo) {
+                    seccionCatalogo.scrollIntoView({ behavior: 'smooth' });
+                }
+                const offcanvasElement = document.getElementById('menuCategorias');
+                const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
                 if (offcanvas) offcanvas.hide();
             }
         });
@@ -68,10 +72,7 @@ export function configuracionPrincipalEventos() {
     const btnLogo = document.getElementById('btn-logo-inicio');
     if (btnLogo) {
         btnLogo.addEventListener('click', () => {
-            // 1. Volvemos a filtrar para que aparezcan "Todos"
             filtrarProductos('Todos');
-            
-            // 2. Subimos al inicio de la página suavemente
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             console.log("Regresando al inicio...");
@@ -152,6 +153,5 @@ function mostrarDetalle(productoId) {
   detalleModal.show()
 }
 
-// Tu función produ() se queda casi igual, pero asegúrate de que esté exportada
 
 
