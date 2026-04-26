@@ -78,16 +78,26 @@ function configurarEventosLogin() {
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
       icon: 'success',
-      confirmButtonText: 'Continuar',
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
       confirmButtonColor: '#6F4E37'
     }).then(() => {
-      const modal = document.getElementById('modalLogin')
-      if (!modal || !window.bootstrap) return
-      const instancia = bootstrap.Modal.getOrCreateInstance(modal)
-      instancia.hide()
-      formLogin.reset()
+      cerrarModalYLimpiarLogin(formLogin)
     })
   })
+}
+
+function cerrarModalYLimpiarLogin(formLogin) {
+  const modal = document.getElementById('modalLogin')
+  if (!modal || !window.bootstrap?.Modal) return
+
+  const instancia =
+    window.bootstrap.Modal.getInstance(modal) ??
+    window.bootstrap.Modal.getOrCreateInstance(modal)
+
+  instancia.hide()
+  formLogin.reset()
 }
 
 function configurarEventosBusqueda() {
