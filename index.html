@@ -57,14 +57,37 @@
           <iconify-icon icon="mdi:account-outline" style="font-size: 1.8rem;"></iconify-icon>
         </a>
 
-      <div class="d-flex gap-3 fs-4" style="color: #6F4E37; position: relative; cursor: pointer;">
+      <button class="btn d-flex gap-3 fs-4 p-0 border-0 bg-transparent" 
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#carritoCollapse"
+              aria-expanded="false"
+              aria-controls="carritoCollapse"
+              style="color: #6F4E37; position: relative; cursor: pointer;">
           <iconify-icon icon="mdi:cart-outline"></iconify-icon>
           <span id="carrito-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
             0
           </span>
-      </div>
+      </button>
     </div>
       </header>
+
+    <div class="collapse carrito-collapse" id="carritoCollapse">
+      <div class="card shadow carrito-popup border-0">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3" style="color: #6F4E37;">Mi carrito</h6>
+          <div id="carrito-items">
+            <p class="text-muted small mb-0">Tu carrito está vacío.</p>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold">
+            <span>Total</span>
+            <span id="carrito-total">S/ 0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="app"></div>
 
     <div class="modal fade" id="modalDetalles" tabindex="-1" aria-hidden="true">
