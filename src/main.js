@@ -96,10 +96,24 @@ function configurarEventosLogin() {
 
 function cerrarModalYLimpiarLogin(formLogin) {
   const modal = document.getElementById('modalLogin')
-  if (!modal) return
+  if (!modal || !window.bootstrap?.Modal) return
 
-  const instancia = Modal.getOrCreateInstance(modal)
+  const instancia =
+    window.bootstrap.Modal.getInstance(modal) ??
+    window.bootstrap.Modal.getOrCreateInstance(modal)
+
+  const limpiarBackdropsSobrantes = () => {
+    const hayModalesAbiertos = document.querySelector('.modal.show')
+    if (hayModalesAbiertos) return
+
+    document.body.classList.remove('modal-open')
+    document.body.style.removeProperty('padding-right')
+    document.querySelectorAll('.modal-backdrop').forEach((backdrop) => backdrop.remove())
+  }
+
+  modal.addEventListener('hidden.bs.modal', limpiarBackdropsSobrantes, { once: true })
   instancia.hide()
+  setTimeout(limpiarBackdropsSobrantes, 350)
   formLogin.reset()
 }
 
