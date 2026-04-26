@@ -78,7 +78,9 @@ function configurarEventosLogin() {
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
       icon: 'success',
-      confirmButtonText: 'Continuar',
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
       confirmButtonColor: '#6F4E37'
     }).then(() => {
       const modal = document.getElementById('modalLogin')
