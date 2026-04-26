@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './style.css'
+import Swal from 'sweetalert2'
 
 import { productos } from './data/producto.js'
 import {
@@ -60,22 +61,20 @@ function agregarProductoAlCarrito(idProducto) {
   actualizarVistaCarrito()
   abrirCarritoColapsable()
 
-  if (window.Swal) {
-    Swal.fire({
-      title: '¡Añadido!',
-      text: `${producto.nombre} se sumó al carrito.`,
-      icon: 'success',
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      background: '#F5F5DC',
-      iconColor: '#6F4E37',
-      didOpen: (toast) => {
-        toast.style.color = '#6F4E37'
-      }
-    })
-  }
+  Swal.fire({
+    title: '¡Añadido!',
+    text: `${producto.nombre} se sumó al carrito.`,
+    icon: 'success',
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    background: '#F5F5DC',
+    iconColor: '#6F4E37',
+    didOpen: (toast) => {
+      toast.style.color = '#6F4E37'
+    }
+  })
 }
 
 function abrirCarritoColapsable() {
