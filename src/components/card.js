@@ -15,12 +15,13 @@ export function crearCardProducto(producto) {
                     style="background-color: #6F4E37; color: white;">
               Agregar al carrito
             </button>
-
-            <button class="btn btn-outline-secondary rounded-pill fw-bold btn-ver-detalles" 
-                    data-id="${producto.id}"
-                    style="border-color: #D2B48C; color: #6F4E37;">
-              Ver detalles
-            </button>
+<button class="btn btn-outline-secondary rounded-pill fw-bold btn-ver-detalles"
+        data-id="${producto.id}"
+        data-bs-toggle="modal"
+        data-bs-target="#detalleModal"
+        style="border-color: #D2B48C; color: #6F4E37;">
+  Ver detalles
+</button>
           </div>
         </div>
       </div>
