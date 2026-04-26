@@ -8,6 +8,7 @@ import {
   mostrarHero,
   mostrarCatalogo,
   mostrarModalDetalles,
+  buscarProductos,
   configuracionPrincipalEventos,
   renderizarMenuCategorias,
   produ,
@@ -29,6 +30,7 @@ function inicializarApp() {
   produ()
   configurarEventosCarrito()
   configurarEventosLogin()
+  configurarEventosBusqueda()
   actualizarVistaCarrito()
 }
 
@@ -87,6 +89,28 @@ function configurarEventosLogin() {
       instancia.hide()
       formLogin.reset()
     })
+  })
+}
+
+function configurarEventosBusqueda() {
+  const inputBusqueda = document.getElementById('busqueda-input')
+  const botonBusqueda = document.getElementById('btn-buscar')
+  if (!inputBusqueda || !botonBusqueda) return
+
+  botonBusqueda.addEventListener('click', () => {
+    buscarProductos(inputBusqueda.value)
+  })
+
+  inputBusqueda.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    buscarProductos(inputBusqueda.value)
+  })
+
+  inputBusqueda.addEventListener('input', () => {
+    if (inputBusqueda.value.trim() === '') {
+      buscarProductos('')
+    }
   })
 }
 
