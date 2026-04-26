@@ -32,6 +32,43 @@ export function mostrarCatalogo() {
     `;
 }
 
+export function mostrarFormularioContacto() {
+    return `
+    <section id="contacto" class="py-5" style="background-color: #F5F5DC;">
+        <div class="container" style="max-width: 760px;">
+            <div class="text-center mb-4">
+                <iconify-icon icon="mdi:email-outline" style="color: #6F4E37; font-size: 2.5rem;"></iconify-icon>
+                <h2 class="fw-bold mt-2" style="color: #6F4E37;">Contáctanos</h2>
+                <p class="text-muted mb-0">Déjanos tus datos y te responderemos pronto.</p>
+            </div>
+
+            <form id="form-contacto" class="p-4 p-md-5 shadow-sm rounded-4" style="background-color: #fffdf8; border: 1px solid #e8d9c2;">
+                <div class="mb-3">
+                    <label for="contacto-nombre" class="form-label fw-semibold" style="color: #6F4E37;">Nombre</label>
+                    <input id="contacto-nombre" name="nombre" type="text" class="form-control rounded-pill border-0 shadow-sm" placeholder="Ingresa tu nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="contacto-correo" class="form-label fw-semibold" style="color: #6F4E37;">Correo</label>
+                    <input id="contacto-correo" name="correo" type="email" class="form-control rounded-pill border-0 shadow-sm" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="contacto-mensaje" class="form-label fw-semibold" style="color: #6F4E37;">Mensaje</label>
+                    <textarea id="contacto-mensaje" name="mensaje" class="form-control border-0 shadow-sm rounded-4" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn text-white fw-bold rounded-pill py-2" style="background-color: #6F4E37; border: none;">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+    `;
+}
+
 export function renderizarMenuCategorias() {
     const listaMenu = document.querySelector('#lista-categorias-menu');
     if (!listaMenu) return;
@@ -88,6 +125,47 @@ function filtrarProductos(categoria) {
         : productos.filter(p => p.categoria === categoria);
     
     contenedor.innerHTML = filtrados.map(p => crearCardProducto(p)).join('');
+}
+
+export function buscarProductos(terminoBusqueda = '') {
+    const contenedor = document.querySelector('#contenedor-productos');
+    if (!contenedor) return;
+
+    const terminoNormalizado = terminoBusqueda.trim().toLowerCase();
+    if (!terminoNormalizado) {
+        contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
+        return;
+    }
+
+    const resultados = productos.filter((producto) => {
+        const nombre = producto.nombre.toLowerCase();
+        const descripcion = producto.descripcion.toLowerCase();
+        const categoria = producto.categoria.toLowerCase();
+        return nombre.includes(terminoNormalizado)
+            || descripcion.includes(terminoNormalizado)
+            || categoria.includes(terminoNormalizado);
+    });
+
+    if (resultados.length === 0) {
+        contenedor.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-warning text-center mb-0">
+                    No encontramos productos para "<strong>${terminoBusqueda.trim()}</strong>".
+                </div>
+            </div>
+        `;
+        desplazarAResultados();
+        return;
+    }
+
+    contenedor.innerHTML = resultados.map(p => crearCardProducto(p)).join('');
+    desplazarAResultados();
+}
+
+function desplazarAResultados() {
+    const seccionCatalogo = document.getElementById('catalogo');
+    if (!seccionCatalogo) return;
+    seccionCatalogo.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Función vacía para evitar errores de importación si la llamas en main.js
@@ -151,4 +229,3 @@ export function produ() {
         contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
     }
 }
-
