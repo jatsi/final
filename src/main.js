@@ -86,22 +86,15 @@ function configurarEventosLogin() {
       showConfirmButton: false,
       confirmButtonColor: '#6F4E37'
     }).then(() => {
-      cerrarModalYLimpiarLogin(formLogin)
+      const modal = document.getElementById('modalLogin')
+      if (!modal || !window.bootstrap) return
+      const instancia = bootstrap.Modal.getOrCreateInstance(modal)
+      instancia.hide()
+      formLogin.reset()
     })
   })
 }
 
-function cerrarModalYLimpiarLogin(formLogin) {
-  const modal = document.getElementById('modalLogin')
-  if (!modal || !window.bootstrap?.Modal) return
-
-  const instancia =
-    window.bootstrap.Modal.getInstance(modal) ??
-    window.bootstrap.Modal.getOrCreateInstance(modal)
-
-  instancia.hide()
-  formLogin.reset()
-}
 
 function configurarEventosBusqueda() {
   const inputBusqueda = document.getElementById('busqueda-input')
