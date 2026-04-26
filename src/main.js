@@ -79,6 +79,13 @@ function configurarEventosLogin() {
       return
     }
 
+    const modal = document.getElementById('modalLogin')
+    if (modal && window.bootstrap) {
+      const instancia = bootstrap.Modal.getOrCreateInstance(modal)
+      instancia.hide()
+    }
+    formLogin.reset()
+
     Swal.fire({
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
@@ -87,12 +94,48 @@ function configurarEventosLogin() {
       timerProgressBar: true,
       showConfirmButton: false,
       background: '#F5F5DC'
+    })
+  })
+}
+
+function configurarEventosBusqueda() {
+  const inputBusqueda = document.getElementById('busqueda-input')
+  const botonBusqueda = document.getElementById('btn-buscar')
+  if (!inputBusqueda || !botonBusqueda) return
+
+  botonBusqueda.addEventListener('click', () => {
+    buscarProductos(inputBusqueda.value)
+  })
+
+  inputBusqueda.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    buscarProductos(inputBusqueda.value)
+  })
+
+  inputBusqueda.addEventListener('input', () => {
+    if (inputBusqueda.value.trim() === '') {
+      buscarProductos('')
+    }
+  })
+}
+
+function configurarFormularioContacto() {
+  const formulario = document.getElementById('form-contacto')
+  if (!formulario) return
+
+  formulario.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    Swal.fire({
+      title: 'registro exitoso',
+      html: '<small>tus datos se enviaron correctamente</small>',
+      icon: 'success',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#6F4E37',
+      background: '#F5F5DC'
     }).then(() => {
-      const modal = document.getElementById('modalLogin')
-      if (!modal || !window.bootstrap) return
-      const instancia = bootstrap.Modal.getOrCreateInstance(modal)
-      instancia.hide()
-      formLogin.reset()
+      formulario.reset()
     })
   })
 }
