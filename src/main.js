@@ -22,6 +22,7 @@ function inicializarApp() {
     document.querySelector('#app').innerHTML = `
       ${mostrarHero()}
       ${mostrarCatalogo()}
+     ${ mostrarModalDetalles()}
     `;
 
     // ACTIVACIÓN DE EVENTOS
