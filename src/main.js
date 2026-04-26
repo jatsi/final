@@ -7,6 +7,7 @@ import { productos } from './data/producto.js'
 import {
   mostrarHero,
   mostrarCatalogo,
+  mostrarFormularioContacto,
   mostrarModalDetalles,
   buscarProductos,
   configuracionPrincipalEventos,
@@ -21,6 +22,7 @@ function inicializarApp() {
   document.querySelector('#app').innerHTML = `
     ${mostrarHero()}
     ${mostrarCatalogo()}
+    ${mostrarFormularioContacto()}
     ${mostrarModalDetalles()}
   `
 
@@ -31,6 +33,7 @@ function inicializarApp() {
   configurarEventosCarrito()
   configurarEventosLogin()
   configurarEventosBusqueda()
+  configurarFormularioContacto()
   actualizarVistaCarrito()
 }
 
@@ -111,6 +114,26 @@ function configurarEventosBusqueda() {
     if (inputBusqueda.value.trim() === '') {
       buscarProductos('')
     }
+  })
+}
+
+function configurarFormularioContacto() {
+  const formulario = document.getElementById('form-contacto')
+  if (!formulario) return
+
+  formulario.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    Swal.fire({
+      title: 'registro exitoso',
+      html: '<small>tus datos se enviaron correctamente</small>',
+      icon: 'success',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#6F4E37',
+      background: '#F5F5DC'
+    }).then(() => {
+      formulario.reset()
+    })
   })
 }
 
