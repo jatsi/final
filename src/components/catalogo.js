@@ -98,7 +98,7 @@ export function mostrarModalDetalles(){
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="producto-nombre">Modal title</h1>
+        <h1 class="modal-title fs-5" id="producto-nombre"></h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -115,6 +115,23 @@ export function mostrarModalDetalles(){
 }
 
 // catalogo.js
+document.addEventListener("click", function (e) {
+  const boton = e.target.closest(".btn-ver-detalles");
+
+  if (!boton) return;
+
+  const productoId = Number(boton.dataset.id);
+  const producto = productos.find(p => p.id === productoId);
+
+  if (!producto) {
+    console.error("Producto no encontrado:", productoId);
+    return;
+  }
+
+  document.getElementById("producto-nombre").textContent = producto.nombre;
+  document.getElementById("producto-descripcion").textContent = producto.descripcion;
+ 
+});
 
 export function renderizarTodo() {
     // Rellena el menú lateral
@@ -144,14 +161,5 @@ export function produ() {
         });
     }
 }
-function mostrarDetalle(productoId) {
-  const producto = productos.find((producto)=>(producto.id === productoId ))
-
-  document.getElementById("producto-nombre").textContent= producto.nombre;
-
-  const detalleModal = new bootstrap.Modal(document.getElementById("detalleModal"));
-  detalleModal.show()
-}
-
 
 
