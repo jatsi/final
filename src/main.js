@@ -3,6 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { Modal } from 'bootstrap'
 import './style.css'
 import Swal from 'sweetalert2'
+import { crearCardProducto } from './components/card.js'
 
 import { productos } from './data/producto.js'
 import {
@@ -30,6 +31,8 @@ function inicializarApp() {
   produ()
   configurarEventosCarrito()
   configurarEventosLogin()
+  configurarEventosBusqueda()
+  configurarFormularioContacto()
   actualizarVistaCarrito()
 }
 
@@ -75,6 +78,8 @@ function configurarEventosLogin() {
       return
     }
 
+    cerrarModalYLimpiarLogin(formLogin)
+
     Swal.fire({
       title: '¡Bienvenido!',
       text: `Inicio de sesión correcto para ${correo}.`,
@@ -118,6 +123,32 @@ function configurarEventosBusqueda() {
       buscarProductos('')
     }
   })
+}
+
+function buscarProductos(terminoBusqueda) {
+  const contenedor = document.getElementById('contenedor-productos')
+  if (!contenedor) return
+
+  const termino = terminoBusqueda.trim().toLowerCase()
+  const resultados = termino
+    ? productos.filter(
+        (producto) =>
+          producto.nombre.toLowerCase().includes(termino) ||
+          producto.categoria.toLowerCase().includes(termino) ||
+          producto.descripcion.toLowerCase().includes(termino)
+      )
+    : productos
+
+  if (resultados.length === 0) {
+    contenedor.innerHTML = `
+      <div class="col-12 text-center">
+        <p class="text-muted mb-0">No encontramos productos con ese criterio.</p>
+      </div>
+    `
+    return
+  }
+
+  contenedor.innerHTML = resultados.map((producto) => crearCardProducto(producto)).join('')
 }
 
 function configurarFormularioContacto() {
