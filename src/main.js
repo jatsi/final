@@ -229,6 +229,47 @@ function abrirCarritoColapsable() {
   instancia.show()
 }
 
+function configurarToggleCarrito() {
+  const botonCarrito = document.getElementById('btn-toggle-carrito')
+  const collapseElement = document.getElementById('carritoCollapse')
+  if (!botonCarrito || !collapseElement || !window.bootstrap) return
+
+  const instancia = obtenerInstanciaCarrito(collapseElement)
+
+  botonCarrito.addEventListener('click', (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (collapseElement.classList.contains('show')) {
+      instancia.hide()
+      return
+    }
+
+    instancia.show()
+  })
+
+  collapseElement.addEventListener('click', (e) => {
+    e.stopPropagation()
+  })
+
+  document.addEventListener('click', () => {
+    if (!collapseElement.classList.contains('show')) return
+    instancia.hide()
+  })
+
+  collapseElement.addEventListener('shown.bs.collapse', () => {
+    botonCarrito.setAttribute('aria-expanded', 'true')
+  })
+
+  collapseElement.addEventListener('hidden.bs.collapse', () => {
+    botonCarrito.setAttribute('aria-expanded', 'false')
+  })
+}
+
+function obtenerInstanciaCarrito(collapseElement) {
+  return bootstrap.Collapse.getOrCreateInstance(collapseElement, { toggle: false })
+}
+
 function cambiarCantidadProducto(idProducto, delta) {
   const itemExistente = carrito.find((item) => item.id === idProducto)
   if (!itemExistente) return
