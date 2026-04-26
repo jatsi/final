@@ -166,3 +166,25 @@ body:not(.modal-open) {
 .swal2-shown {
     height: auto !important;
 }
+.carrito-collapse {
+  position: fixed;
+  top: 95px;
+  right: 24px;
+  z-index: 1060;
+  width: min(360px, calc(100vw - 32px));
+}
+
+.carrito-popup {
+  border-radius: 14px;
+  background-color: #fffdf8;
+}
+
+#carrito-items {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.carrito-item-row {
+  border-bottom: 1px solid #f0e7da;
+  padding-bottom: 8px;
+}
