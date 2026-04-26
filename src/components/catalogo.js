@@ -150,16 +150,5 @@ export function produ() {
         // productos y crearCardProducto deben estar importados arriba
         contenedor.innerHTML = productos.map(p => crearCardProducto(p)).join('');
     }
-
-    // Activa el formulario de login (lo que antes era alerta)
-    const formLogin = document.getElementById('formLogin');
-    if (formLogin) {
-        formLogin.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // ... resto de tu código de SweetAlert ...
-            console.log("Login enviado");
-        });
-    }
 }
-
 
